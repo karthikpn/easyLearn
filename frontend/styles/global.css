@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Redressed&family=Ubuntu&display=swap");
+
+* {
+  font-family: "Ubuntu", sans-serif;
+}
+.mainhead {
+  font-size: clamp(1rem, 2vw + 1rem, 4rem);
+  position: relative;
+  font-family: "Source Code Pro", monospace;
+  position: relative;
+  width: max-content;
+}
+.mainhead::before,
+.mainhead::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.mainhead::before {
+  background: white;
+  animation: typewriter 6s steps(24) 1s forwards;
+}
+
+.mainhead::after {
+  width: 0.125em;
+  background: black;
+  animation: typewriter 6s steps(24) 1s forwards, blink 750ms steps(24) infinite;
+}
+@keyframes typewriter {
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes blink {
+  to {
+    background: transparent;
+  }
+}
+#loading {
+  height: fit-content;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #152238;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
