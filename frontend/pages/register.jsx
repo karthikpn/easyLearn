@@ -1,26 +1,32 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 import Loader from "../Components/Loader";
+import { Context } from "../context";
 const register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { state, dispatch } = useContext(Context);
+  const router = useRouter();
+  useEffect(() => {
+    if (state.user) {
+      router.push("/");
+    }
+  }, [state.user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/register`,
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      const { data } = await axios.post(`api/register`, {
+        name,
+        email,
+        password,
+      });
       toast.success("Registration successfull. Please Login");
     } catch (error) {
       toast.error(error.response.data);
@@ -30,7 +36,7 @@ const register = () => {
   };
   return (
     <>
-      <div className="sm:hidden md:flex justify-around">
+      <div className="sm:hidden md:flex justify-around min-w-fit">
         <div className="mt-28 px-20 py-8  ">
           <h1 className="text-xl">Welcome</h1>
           <form
@@ -73,8 +79,9 @@ const register = () => {
               {loading ? <Loader /> : " REGISTER"}
             </button>
             <p className="mt-4">
+              Already Registered?{" "}
               <Link href="/login">
-                <p className="text-blue-400 cursor-pointer">Login here</p>
+                <a className="text-blue-400 cursor-pointer">Login</a>
               </Link>{" "}
             </p>
           </form>
@@ -127,8 +134,9 @@ const register = () => {
               REGISTER
             </button>
             <p className="mt-4">
+              Already Registered?{" "}
               <Link href="/login">
-                <p className="text-blue-400 cursor-pointer">Login here</p>
+                <a className="text-blue-400 cursor-pointer">Login</a>
               </Link>{" "}
             </p>
           </form>
